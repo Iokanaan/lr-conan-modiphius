@@ -76,7 +76,9 @@ export const onTalentDisplay = function(entry: Component<TalentData>) {
         })
     } else {
         entry.find("talent_niveau").hide()
-    }        
+    }
+
+    sheet.find("talent_filter").value("0")
 }
 
 export const onTalentDelete = function(sheet: PcSheet) {
@@ -87,3 +89,36 @@ export const onTalentDelete = function(sheet: PcSheet) {
     }
 }
 
+export const filterTalents = function(sheet: PcSheet) {
+    const filteringValue = signal(sheet.find("talent_filter").value());
+
+    sheet.find("talent_filter").on("update", basicUpdateHandler(filteringValue))
+    effect(function() {
+        const talentData = sheet.talents()
+        const keys = Object.keys(talentData)
+        for(let k=0;k<keys.length;k++) {
+            if(filteringValue() !== undefined && filteringValue() !== null && filteringValue() != 0 && talentData[keys[k]].talent_competence !== filteringValue()){
+                log("showing " + keys[k])
+                sheet.find("talents_repeater").find(keys[k]).hide()
+            } else {
+                log("hiding " + keys[k])
+                sheet.find("talents_repeater").find(keys[k]).show()
+            }
+        }
+    }, [filteringValue, sheet.talents])
+
+    effect(function() {
+        const talents = sheet.talents()
+        const keys = Object.keys(talents)
+        const usedComps: Partial<Record<Competence | "origine_caste" | "fortune" | "0", string>> = {"0": ""}
+        log(talents)
+        for(let k=0;k<keys.length;k++) {
+            usedComps[talents[keys[k]].talent_competence] = Tables.get("talents_competences").get(talents[keys[k]].talent_competence).name          
+        }
+        if(usedComps[sheet.find("talent_filter").value() as Competence | "origine_caste" | "fortune" | "0"] === undefined) {
+            sheet.find("talent_filter").value("0")
+        }
+        (sheet.find("talent_filter") as ChoiceComponent<string>).setChoices(usedComps)
+    }, [sheet.talents])
+
+}

@@ -7,7 +7,7 @@ import { setupRepeater } from "./utils/repeaters"
 import { onArmeDelete, onArmesDisplay, onWeaponEdit, setCombatBonus, setupMainsNues } from "./combat/armes"
 import { onArmureDelete, onArmureDisplay, setupArmorSchema, setupEncConditionnel } from "./combat/armures"
 import { rollMenaces, setupMenaceBonus } from "./combat/menaces"
-import { onTalentDelete, onTalentDisplay, onTalentEdit } from "./talents/talents"
+import { filterTalents, onTalentDelete, onTalentDisplay, onTalentEdit } from "./talents/talents"
 
 
 initRoll = function(result: DiceResult, callback: DiceResultCallback) {
@@ -34,6 +34,7 @@ init = function(sheet: Sheet) {
         rollMenaces(s)
         setupMenaceBonus(s)
         setupRepeater(s, "talents_repeater", onTalentEdit, onTalentDisplay, onTalentDelete(s))
+        filterTalents(s)
     }
 }
 
