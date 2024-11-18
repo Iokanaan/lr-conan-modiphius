@@ -78,3 +78,15 @@ export const effect = function(apply: () => void, dependencies: Signal<unknown>[
         })
     }
 }
+
+export const basicUpdateHandler = function<T>(signal: Signal<T>) {
+    return function(c: Component<T>) {
+        signal.set(c.value())
+    }
+}
+
+export const lazySet = function<T>(cmp: Component<T>,value: T) {
+    if(cmp.value() !== value) {
+        cmp.value(value)
+    }
+}

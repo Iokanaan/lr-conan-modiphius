@@ -13,7 +13,7 @@
 
 
 export const setupRepeater = function(
-    sheet: PcSheet | MinionSheet,
+    sheet: PcSheet,
     repeaterId: string,
     setupEditEntry: ((entry: Component<any>) => void) | null,
     setupViewEntry: ((entry: Component<any>) => void) | null,
