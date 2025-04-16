@@ -6,8 +6,10 @@ import { parseIntTag, resultCallback } from "./roll/handleRoll"
 import { setupRepeater } from "./utils/repeaters"
 import { onArmeDelete, onArmesDisplay, onWeaponEdit, setCombatBonus, setupMainsNues } from "./combat/armes"
 import { onArmureDelete, onArmureDisplay, setupArmorSchema, setupEncConditionnel } from "./combat/armures"
-import { rollMenaces, setupMenaceBonus } from "./combat/menaces"
+import { rollMenaces } from "./combat/menaces"
 import { filterTalents, onTalentDelete, onTalentDisplay, onTalentEdit } from "./talents/talents"
+import { onSpellDelete, onSpellDisplay, onSpellEdit } from "./sorceries/spells"
+import { onAlchimieDelete, onAlchimieDisplay, onAlchimieEdit } from "./sorceries/alchimie"
 
 
 initRoll = function(result: DiceResult, callback: DiceResultCallback) {
@@ -23,18 +25,23 @@ init = function(sheet: Sheet) {
         } catch(e) {
             log("[CRITICAL]: Failed setting up navigation for " + sheet.getSheetId())
         }
+        log("Set roll stats")
         rollStats(s)
+        log("Set roll Dices")
         setDice(s)
         setupRepeater(s, "armes_repeater", onWeaponEdit, onArmesDisplay, onArmeDelete(s))
+        log("Set combat bonus")
         setCombatBonus(s)
+        
         setupMainsNues(s)
         setupRepeater(s, "armures_repeater", null, onArmureDisplay, onArmureDelete(s))
         setupArmorSchema(s)
         setupEncConditionnel(s)
         rollMenaces(s)
-        setupMenaceBonus(s)
         setupRepeater(s, "talents_repeater", onTalentEdit, onTalentDisplay, onTalentDelete(s))
         filterTalents(s)
+        setupRepeater(s, "spells_repeater", onSpellEdit, onSpellDisplay, onSpellDelete(s))
+        setupRepeater(s, "alchimie_repeater", onAlchimieEdit, onAlchimieDisplay, onAlchimieDelete(s))
     }
 }
 

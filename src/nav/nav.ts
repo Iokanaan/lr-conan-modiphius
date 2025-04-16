@@ -19,18 +19,41 @@ export const setupNav = function(sheet: PcSheet) {
     }
 }
 
-export const setDice = function(sheet: PcSheet) {
+export const setDice = function(s: PcSheet) {
     effect(function() {
-        if(sheet.nbDice() > 2) {
-            sheet.find("nb_dice").addClass("text-success")
-            sheet.find("nb_dice").removeClass("text-danger")
-        } else if(sheet.nbDice() < 2) {
-            sheet.find("nb_dice").removeClass("text-success")
-            sheet.find("nb_dice").addClass("text-danger")
+        if(s.nbDice() > 2) {
+            s.find("nb_dice").addClass("text-success")
+            s.find("nb_dice").removeClass("text-danger")
+        } else if(s.nbDice() < 2) {
+            s.find("nb_dice").removeClass("text-success")
+            s.find("nb_dice").addClass("text-danger")
         } else {
-            sheet.find("nb_dice").removeClass("text-success")
-            sheet.find("nb_dice").removeClass("text-danger")
+            s.find("nb_dice").removeClass("text-success")
+            s.find("nb_dice").removeClass("text-danger")
         }
-        sheet.find("nb_dice").value(sheet.nbDice() + " :dice-d20:")
-    }, [sheet.nbDice])
+        if(s.nbDice() >= 0) {
+            s.find("nb_dice").value(s.nbDice() + " :dice-d20:")
+        } else {
+            s.find("nb_dice").value(s.nbDice() + " :dice-d20:")
+        }
+
+    }, [s.nbDice])
+    effect(function() {
+        if(s.birdDice() > 0) {
+            s.find("bird_dice").addClass("text-success")
+            s.find("bird_dice").removeClass("text-danger")
+        } else if(s.birdDice() < 0) {
+            s.find("bird_dice").removeClass("text-success")
+            s.find("bird_dice").addClass("text-danger")
+        } else {
+            s.find("bird_dice").removeClass("text-success")
+            s.find("bird_dice").removeClass("text-danger")
+        }
+        if(s.birdDice() >= 0) {
+            s.find("bird_dice").value("+" + s.birdDice() + " :ga_eagle-emblem:")
+        } else {
+            s.find("bird_dice").value(s.birdDice() + " :ga_eagle-emblem:")
+        }
+
+    }, [s.birdDice])
 }

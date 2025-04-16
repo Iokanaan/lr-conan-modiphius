@@ -64,12 +64,12 @@ export const onArmureDelete = function(sheet: PcSheet) {
 export const setupEncConditionnel = function(s: PcSheet) {
     s.find("couvert_roll").on("click", function() {
         if(s.find("couvert_val").value() !== undefined && s.find("couvert_val").value() as number > 0) {
-            rollD6(s, s.find("couvert_val").value() as number, _("Couvert"))
+            rollD6(s, s.find("couvert_val").value() as number + s.birdDice(), _("Couvert"))
         }
     })
     s.find("moral_roll").on("click", function() {
         if(s.find("moral_val").value() !== undefined && s.find("moral_val").value() as number > 0) {
-            rollD6(s, s.find("moral_val").value() as number, _("Moral"))
+            rollD6(s, s.find("moral_val").value() as number + s.birdDice(), _("Moral"))
         }
     })
 }

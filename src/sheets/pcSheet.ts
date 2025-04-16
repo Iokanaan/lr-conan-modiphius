@@ -51,6 +51,14 @@ export const pcSheet = function(sheet: Sheet): PcSheet {
             _sheet.nbDice.set(_sheet.nbDice() - 1)
         }   
     })
+    _sheet.birdDice = signal(0)
+    _sheet.find("bird_plus").on("click", function() {
+        _sheet.birdDice.set(_sheet.birdDice() + 1)
+    })
+    _sheet.find("bird_min").on("click", function() {
+        _sheet.birdDice.set(_sheet.birdDice() - 1)
+    })
+
 
     _sheet.stats = {} as any
     _sheet.competences = {} as any
@@ -79,6 +87,8 @@ export const pcSheet = function(sheet: Sheet): PcSheet {
     _sheet.armes = signal({})
     _sheet.armures = signal({})
     _sheet.talents = signal({})
+    _sheet.spells = signal({})
+    _sheet.alchimie = signal({})
 
     _sheet.bonus = {
         "melee": computed(function() {
@@ -89,9 +99,7 @@ export const pcSheet = function(sheet: Sheet): PcSheet {
         },[_sheet.stats["perception"]]),
         "menace": computed(function() {
             return getBonus(_sheet.stats["personnalite"]())
-        },[_sheet.stats["personnalite"]]),
-        "tmpDegats": signal(0),
-        "tmpMenace": signal(0)
+        },[_sheet.stats["personnalite"]])
     }
 
     _sheet.renommee = signal(renommeeCmp.value() !== undefined ? renommeeCmp.value() : 0)

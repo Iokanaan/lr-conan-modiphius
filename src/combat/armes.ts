@@ -36,11 +36,11 @@ export const rollAttack = function(s: PcSheet, comp: Competence, degats: number,
     let expression = "(" + s.nbDice() + "d20 <=" + critData.expression + " " + s.competences[comp].vr() + ")[attack," + critData.tag + "]"
     expression += " + (1d20)[loc]" 
     if(comp === "melee") {
-        expression += " + (" + (degats + s.bonus.melee() + s.bonus.tmpDegats()) + "d6 <={2:2,3:0,4:0} 6)[damage]"
-        s.bonus.tmpDegats.set(0)
+        expression += " + (" + (degats + s.bonus.melee() + s.birdDice()) + "d6 <={2:2,3:0,4:0} 6)[damage]"
+        s.birdDice.set(0)
     } else {
-        expression += " + (" + (degats + s.bonus.distance() + s.bonus.tmpDegats()) + "d6 <={2:2,3:0,4:0} 6)[damage]"
-        s.bonus.tmpDegats.set(0)
+        expression += " + (" + (degats + s.bonus.distance() + s.birdDice()) + "d6 <={2:2,3:0,4:0} 6)[damage]"
+        s.birdDice.set(0)
     }
     new RollBuilder(s.raw())
         .expression(expression)
@@ -84,28 +84,6 @@ export const setCombatBonus = function(s: PcSheet) {
     effect(function() {
         s.find("distance_bonus").value("Distance **+" + s.bonus.distance() + "**")
     }, [s.bonus.distance])
-
-    s.find("bonus_degats_tmp_min").on("click", function() {
-        s.bonus.tmpDegats.set(s.bonus.tmpDegats() - 1)
-    })
-    s.find("bonus_degats_tmp_plus").on("click", function() {
-        s.bonus.tmpDegats.set(s.bonus.tmpDegats() + 1)
-    })
-    effect(function() {
-        if(s.bonus.tmpDegats() >= 0) {
-            s.find("bonus_degats_tmp_label").value("**+" + s.bonus.tmpDegats() + "**")
-            if(s.bonus.tmpDegats() === 0) {
-                s.find("bonus_degats_tmp_label").removeClass("text-success")
-            } else {
-                s.find("bonus_degats_tmp_label").addClass("text-success")
-            }
-            s.find("bonus_degats_tmp_label").removeClass("text-danger")
-        } else {
-            s.find("bonus_degats_tmp_label").value("**" + s.bonus.tmpDegats() + "**")
-            s.find("bonus_degats_tmp_label").removeClass("text-success")
-            s.find("bonus_degats_tmp_label").addClass("text-danger")
-        }
-    }, [s.bonus.tmpDegats])
 }
 
 export const setupMainsNues = function(s: PcSheet) {
@@ -173,6 +151,8 @@ export const onArmesDisplay = function(entry: Component<RawArmeData>) {
                 } else {
                     qualiteLabels.push(qEntity.name)
                 }
+            } else {
+                qualiteLabels.push(qEntity.name)
             }
         }
         entry.find("arme_qualites_label").value("**Qualités: **" + qualiteLabels.join(", "))

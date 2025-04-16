@@ -1,7 +1,7 @@
 import { competences } from "../globals"
 import { effect, intToWord } from "../utils/utils"
 
-const handleStatRoll = function(sheet: PcSheet, comp: Competence) {
+export const handleStatRoll = function(sheet: PcSheet, comp: Competence, title: string) {
     return function(cmp: Component) {
         log("Rolling for :" + comp)
         const critsUnder = sheet.competences[comp].con()
@@ -13,7 +13,12 @@ const handleStatRoll = function(sheet: PcSheet, comp: Competence) {
             }
             critExpression = "{" + crits.join(",") + "}"
         }
-        new RollBuilder(sheet.raw()).expression(sheet.nbDice() + "d20[comp,con_" + intToWord(critsUnder) + "] <=" + critExpression + " " + sheet.competences[comp].vr()).roll()
+        log(sheet.nbDice() + "d20[comp,con_" + intToWord(critsUnder) + "] <=" + critExpression + " " + sheet.competences[comp].vr())
+        log(title)
+        new RollBuilder(sheet.raw())
+            .expression(sheet.nbDice() + "d20[comp,con_" + intToWord(critsUnder) + "] <=" + critExpression + " " + sheet.competences[comp].vr())
+            .title(title)
+            .roll()
         sheet.nbDice.set(2)
     }
 }
@@ -34,7 +39,7 @@ export const rollStats = function(sheet: PcSheet) {
         for(let j=0; j<competences[currStat].length; j++) {
             const currComp = competences[currStat][j]
             effect(handleVrEffect(sheet, currComp), [sheet.competences[currComp].vr])
-            sheet.find(currComp + "_label").on("click", handleStatRoll(sheet, currComp))
+            sheet.find(currComp + "_label").on("click", handleStatRoll(sheet, currComp, Tables.get("talents_competences").get(currComp).name))
         }
     }
 }

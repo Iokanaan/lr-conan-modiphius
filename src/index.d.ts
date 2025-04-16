@@ -43,6 +43,162 @@ declare global {
     
     type ArmeQualite = "AVE" | "BOU" | "CACH" | "CAV" | "CON" | "CRU" | "ETEN" | "ETOU" | "ETRE" | "FRA" | "IMP"  | "INC" | "INT" | "JET" | "LET" | "MAT" | "NLET" | "PAR" | "PERF" | "PERS" | "RED" | "SUB" | "VOL" | "ZON"
 
+    type SpellHeroisme = {
+        exists: boolean,
+        type: string,
+        pts: number,
+        effet: string
+    }
+
+    type SpellAlternatif = {
+        exists: boolean
+        type: string,
+        difficulte: number,
+        effet: string
+    }
+
+    type AlchimieQualite = "AVE" | "ETEN" | "ETOU" | "INC" | "RED" | "NLET" | "ZON" | "PERS" | "PERF"
+
+    type AlchimieQualiteEntity = {
+        id: AlchimieQualite,
+        name: string,
+        type: string
+    }
+
+    type AlchimieType = "poudre_explosive" | "poudre_aveuglante" | "liquide_incendiaire" | "tissu" | "verre" | "talisman" | "pollen"
+
+    type AlchimieForme = "Poudre" | "Liquide" | "Gaz"
+
+    type RawAlchimieData = {
+        alchimie_nom: string,
+        alchimie_type: AlchimieType,
+        alchimie_difficulte: number,
+        alchimie_degats: number,
+        alchimie_couvert: number,
+        alchimie_courage: number,
+        alchimie_handicap: string,
+        alchimie_effets: string,
+        alchimie_qualites: AlchimieQualite[],
+        alchimie_ETEN_lvl: number,
+        alchimie_INC_lvl: number,
+        alchimie_RED_lvl: number,
+        alchimie_forme: AlchimieForme
+    }
+
+    type AlchimieData = {
+        alchimie_nom: string,
+        alchimie_type: AlchimieType,
+        alchimie_difficulte: number,
+        alchimie_degats: number,
+        alchimie_couvert: number,
+        alchimie_courage: number,
+        alchimie_handicap: string,
+        alchimie_effets: string,
+        alchimie_forme: AlchimieForme
+        alchimie_qualites: Partial<Record<AlchimieQualite, {
+            niveau: number | undefined
+        }>>
+    }
+    
+    type SpellData = {
+        spell_nom: string,
+        spell_difficulte: string,
+        spell_cout: string,
+        spell_duree: string,
+        spell_description: string,
+        heroisme_effet: SpellHeroisme[],
+        alternatif: SpellAlternatif[]
+    }
+
+    type RawSpellData = {
+        spell_nom: string,
+        spell_difficulte: string,
+        spell_cout: string,
+        spell_duree: string,
+        spell_description: string,
+        heroisme_effet_1_exists: boolean,
+        heroisme_effet_1_type: string,
+        heroisme_effet_1_pts: string,
+        heroisme_effet_2_exists: boolean,
+        heroisme_effet_1_effet: string,
+        heroisme_effet_2_type: string,
+        heroisme_effet_2_pts: string,
+        heroisme_effet_2_effet: string,
+        heroisme_effet_3_exists: boolean,
+        heroisme_effet_3_type: string,
+        heroisme_effet_3_pts: string,
+        heroisme_effet_3_effet: string,
+        heroisme_effet_4_exists: boolean,
+        heroisme_effet_4_type: string,
+        heroisme_effet_4_pts: string,
+        heroisme_effet_4_effet: string,
+        heroisme_effet_5_exists: boolean,
+        heroisme_effet_5_type: string,
+        heroisme_effet_5_pts: string,
+        heroisme_effet_5_effet: string,
+        heroisme_effet_6_exists: boolean,
+        heroisme_effet_6_type: string,
+        heroisme_effet_6_pts: string,
+        heroisme_effet_6_effet: string,
+        heroisme_effet_7_exists: boolean,
+        heroisme_effet_7_type: string,
+        heroisme_effet_7_pts: string,
+        heroisme_effet_7_effet: string,
+        heroisme_effet_8_exists: boolean,
+        heroisme_effet_8_type: string,
+        heroisme_effet_8_pts: string,
+        heroisme_effet_8_effet: string,
+        heroisme_effet_9_exists: boolean,
+        heroisme_effet_9_type: string,
+        heroisme_effet_9_pts: string,
+        heroisme_effet_9_effet: string,
+        heroisme_effet_10_exists: boolean,
+        heroisme_effet_10_type: string,
+        heroisme_effet_10_pts: string,
+        heroisme_effet_10_effet: string,
+        alternatif_1_exists: boolean,
+        alternatif_1_type: string,
+        alternatif_1_difficulte: number,
+        alternatif_1_effet: string,
+        alternatif_2_exists: boolean,
+        alternatif_2_type: string,
+        alternatif_2_difficulte: number,
+        alternatif_2_effet: string,
+        alternatif_3_exists: boolean,
+        alternatif_3_type: string,
+        alternatif_3_difficulte: number,
+        alternatif_3_effet: string,
+        alternatif_4_exists: boolean,
+        alternatif_4_type: string,
+        alternatif_4_difficulte: number,
+        alternatif_4_effet: string,
+        alternatif_5_exists: boolean,
+        alternatif_5_type: string,
+        alternatif_5_difficulte: number,
+        alternatif_5_effet: string,
+        alternatif_6_exists: boolean,
+        alternatif_6_type: string,
+        alternatif_6_difficulte: number,
+        alternatif_6_effet: string,
+        alternatif_7_exists: boolean,
+        alternatif_7_type: string,
+        alternatif_7_difficulte: number,
+        alternatif_7_effet: string,
+        alternatif_8_exists: boolean,
+        alternatif_8_type: string,
+        alternatif_8_difficulte: number,
+        alternatif_8_effet: string,
+        alternatif_9_exists: boolean,
+        alternatif_9_type: string,
+        alternatif_9_difficulte: number,
+        alternatif_9_effet: string,
+        alternatif_10_exists: boolean,
+        alternatif_10_type: string,
+        alternatif_10_difficulte: number,
+        alternatif_10_effet: string,
+
+    }
+
     type RawArmeData = {
         arme_degats: number,
         arme_type: ArmeType,
@@ -126,6 +282,7 @@ declare global {
     type PcSheet = {
         stats: Record<Stat, Signal<number>>,
         nbDice: Signal<number>,
+        birdDice: Signal<number>,
         competences: Record<Competence, {
             con: Signal<number>,
             exp: Signal<number>,
@@ -134,15 +291,15 @@ declare global {
         bonus: {
             melee: Computed<number>,
             distance: Computed<number>,
-            menace: Computed<number>,
-            tmpDegats: Signal<number>,
-            tmpMenace: Signal<number>
+            menace: Computed<number>
         }
         armes: Signal<Record<string, ArmeData>>,
         armures: Signal<Record<string, ArmureData>>,
         talents: Signal<Record<string, TalentData>>,
         visibility: Signal<Visibility>,
-        renommee: Signal<number>
+        renommee: Signal<number>,
+        spells: Signal<Record<string, SpellData>>,
+        alchimie: Signal<Record<string, AlchimieData>>
 
     } & ExtendedSheet
 }

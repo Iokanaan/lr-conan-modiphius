@@ -98,4 +98,5 @@ export const buildCrits = function(sheet: PcSheet, comp: Competence) {
 export const rollD6 = function(s: PcSheet, nbDice: number, title: string) {
     log("Rolling " + nbDice + "d6 <={1:1,2:2,3:0,4:0,5:1,6:1} 6")
     new RollBuilder(s.raw()).expression("(" + nbDice + "d6 <={1:1,2:2,3:0,4:0,5:1,6:1} 6)[bird,auto]" ).title(title).roll()
+    s.birdDice.set(0)
 }

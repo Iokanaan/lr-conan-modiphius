@@ -30,6 +30,10 @@ const switchableComp = function(s: PcSheet, menace: string, comp1: Competence, c
 
 export const rollMenaces = function(s: PcSheet) {
 
+    effect(function() {
+        s.find("bonus_menace").value("**+" + s.bonus.menace() + "**")
+    }, [s.bonus.menace])
+
     const couteauGorgeComp = switchableComp(s, "couteau_gorge", "melee", "furtivite")
     const nomRedouteComp = switchableComp(s, "nom_redoute", "commandement", "discipline")
     const teindreSolRougeComp = switchableComp(s, "teindre_sol_rouge", "melee", "armes_distance")
@@ -67,38 +71,10 @@ export const rollMenaces = function(s: PcSheet) {
 export const rollMenace = function(s: PcSheet, comp: Competence, degats: number, title: string) {
     const critData = buildCrits(s, comp)
     let expression = "(" + s.nbDice() + "d20 <=" + critData.expression + " " + s.competences[comp].vr() + ")[menace," + critData.tag + "]"
-    expression += " + (" + (degats + s.bonus.menace() + s.bonus.tmpMenace()) + "d6 <={2:2,3:0,4:0} 6)[damage]"
-    s.bonus.tmpMenace.set(0)
+    expression += " + (" + (degats + s.bonus.menace() + s.birdDice()) + "d6 <={2:2,3:0,4:0} 6)[damage]"
+    s.birdDice.set(0)
     new RollBuilder(s.raw())
         .expression(expression)
         .title(title)
         .roll()
-}
-
-export const setupMenaceBonus = function(s: PcSheet) {
-    effect(function() {
-        s.find("menace_bonus").value("**+" + s.bonus.menace() + "**")
-    }, [s.bonus.menace])
-
-    s.find("bonus_menace_tmp_min").on("click", function() {
-        s.bonus.tmpMenace.set(s.bonus.tmpMenace() - 1)
-    })
-    s.find("bonus_menace_tmp_plus").on("click", function() {
-        s.bonus.tmpMenace.set(s.bonus.tmpMenace() + 1)
-    })
-    effect(function() {
-        if(s.bonus.tmpMenace() >= 0) {
-            s.find("bonus_menace_tmp_label").value("**+" + s.bonus.tmpMenace() + "**")
-            if(s.bonus.tmpMenace() === 0) {
-                s.find("bonus_menace_tmp_label").removeClass("text-success")
-            } else {
-                s.find("bonus_menace_tmp_label").addClass("text-success")
-            }
-            s.find("bonus_menace_tmp_label").removeClass("text-danger")
-        } else {
-            s.find("bonus_menace_tmp_label").value("**" + s.bonus.tmpMenace() + "**")
-            s.find("bonus_menace_tmp_label").removeClass("text-success")
-            s.find("bonus_menace_tmp_label").addClass("text-danger")
-        }
-    }, [s.bonus.tmpMenace])
 }
